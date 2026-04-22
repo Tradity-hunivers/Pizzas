@@ -342,11 +342,8 @@ ul { list-style: none; }
 /* ─── HERO ─── layout centré : titre + pizza + ingrédients ── */
 .hero {
   position: relative;
-  padding: clamp(30px, 5vw, 70px) 0 clamp(40px, 7vw, 80px);
+  padding: clamp(20px, 3vw, 50px) 0 clamp(30px, 5vw, 60px);
   overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
 }
 .hero-wrap {
   display: flex;
@@ -409,11 +406,11 @@ ul { list-style: none; }
   transform: translateY(20px);
 }
 
-/* Scène pizza — pizza volante au centre, ingrédients tout autour */
+/* Scène pizza — pizza volante en bas-centre, ingrédients tout autour */
 .hero-visual {
   position: relative;
-  width: min(680px, 90vw);
-  aspect-ratio: 1 / 1;
+  width: min(950px, 94vw);
+  aspect-ratio: 16 / 10;
   margin: 0 auto;
   opacity: 0;
   animation: hero-visual 1.2s .3s var(--ease-out) forwards;
@@ -421,24 +418,30 @@ ul { list-style: none; }
 @keyframes hero-visual {
   to { opacity: 1; }
 }
-/* Halo orange derrière la pizza */
+/* Halo orange derrière la pizza (même position que l'ancre) */
 .hero-visual::before {
-  content: ""; position: absolute;
-  top: 50%; left: 50%;
-  width: 55%; height: 55%;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  width: 52%;
+  aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, rgba(223,114,28,.28), transparent 65%);
+  background: radial-gradient(circle at 40% 40%, rgba(223,114,28,.30), transparent 65%);
   z-index: 0;
+  pointer-events: none;
 }
-/* L'ancre de la pizza = zone centrale (demi-taille de la scène) */
+/* Ancre de la pizza volante : bas-centre, 45% de la scène (≈ moitié de la réf) */
 .hero-visual .pizza-anchor {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 70%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
   transform: translate(-50%, -50%);
-  width: 48%;
+  width: 45%;
   aspect-ratio: 1 / 1;
-  inset: auto;
   z-index: 2;
 }
 
@@ -612,15 +615,15 @@ ul { list-style: none; }
   to   { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
 }
 
-/* Positions autour de la pizza hero (match reference image) */
-.hero-visual .ing-basil-top   { top:  4%; left:  6%; width: 17%; --rot:-18deg; animation-delay: .25s; }
-.hero-visual .ing-tomato-top  { top:  8%; right: 6%; width: 14%; --rot: 12deg; animation-delay: .35s; }
-.hero-visual .ing-olives-left { top: 38%; left:  0%; width: 14%; --rot:-10deg; animation-delay: .45s; }
-.hero-visual .ing-basil-right { top: 34%; right: 2%; width: 15%; --rot: 30deg; animation-delay: .50s; }
-.hero-visual .ing-mushroom    { bottom: 16%; right: 4%; width: 16%; --rot:-8deg;  animation-delay: .60s; }
-.hero-visual .ing-tomato-btm  { bottom: 10%; left: 14%; width: 11%; --rot: 15deg; animation-delay: .65s; }
-.hero-visual .ing-chili       { top: 56%; right: 12%; width: 17%; --rot:-28deg; animation-delay: .70s; }
-.hero-visual .ing-basil-btm   { bottom:  2%; left: 42%; width: 11%; --rot: 8deg;  animation-delay: .80s; }
+/* Positions autour de la pizza (match reference image) */
+.hero-visual .ing-basil-top   { top:  2%; left:  6%; width: 13%; --rot:-18deg; animation-delay: .25s; }
+.hero-visual .ing-tomato-top  { top:  5%; right: 8%; width: 11%; --rot: 12deg; animation-delay: .35s; }
+.hero-visual .ing-olives-left { top: 30%; left:  2%; width: 13%; --rot:-10deg; animation-delay: .45s; }
+.hero-visual .ing-basil-right { top: 28%; right: 4%; width: 13%; --rot: 30deg; animation-delay: .50s; }
+.hero-visual .ing-chili       { top: 48%; right: 15%; width: 15%; --rot:-30deg; animation-delay: .70s; }
+.hero-visual .ing-tomato-btm  { top: 52%; left: 10%; width: 9%;  --rot: 15deg; animation-delay: .65s; }
+.hero-visual .ing-mushroom    { top: 62%; right: 6%; width: 13%; --rot:-8deg;  animation-delay: .60s; }
+.hero-visual .ing-basil-btm   { top: 28%; left: 44%; width: 8%;  --rot: 8deg;  animation-delay: .80s; }
 
 /* Positions autour du pizzaiolo */
 .pizzaiolo-visual .p-basil-1   { top:  2%; left:  4%; width: 14%; --rot:-30deg; animation-delay: .20s; }
