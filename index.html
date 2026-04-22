@@ -810,13 +810,23 @@ ul { list-style: none; }
   margin: -6% auto -20%;
   z-index: 2;
 }
+.card-pizza-spin {
+  display: block;
+  width: 100%; height: 100%;
+  transform: rotate(var(--spin, 0deg));
+  transform-origin: center center;
+  will-change: transform;
+}
 .card-visual img {
   width: 100%; height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 30px 40px rgba(0,0,0,.55));
-  transition: transform .8s var(--ease-out);
+  transition: transform .4s var(--ease-out), filter .4s var(--ease-out);
 }
-.card:hover .card-visual img { transform: rotate(8deg) scale(1.04); }
+.card:hover .card-visual img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 35px 50px rgba(0,0,0,.7));
+}
 
 /* Body — la zone texte sur fond teinté */
 .card-body {
@@ -1138,7 +1148,9 @@ ul { list-style: none; }
       <!-- Card 1 — gauche -->
       <article class="card card-a reveal">
         <div class="card-visual">
-          <img src="./images/pizzas/1.png" alt="Pizza Poulette — crème, poulet mariné, oignons" loading="lazy" decoding="async">
+          <span class="card-pizza-spin">
+            <img src="./images/pizzas/1.png" alt="Pizza Poulette — crème, poulet mariné, oignons" loading="lazy" decoding="async">
+          </span>
         </div>
         <div class="card-body">
           <div class="card-head">
@@ -1170,7 +1182,9 @@ ul { list-style: none; }
       <!-- Card 3 — droite -->
       <article class="card card-c reveal" data-delay="2">
         <div class="card-visual">
-          <img src="./images/pizzas/3.png" alt="Pizza Chorizo — chorizo ibérique, poivrons, piment" loading="lazy" decoding="async">
+          <span class="card-pizza-spin">
+            <img src="./images/pizzas/3.png" alt="Pizza Chorizo — chorizo ibérique, poivrons, piment" loading="lazy" decoding="async">
+          </span>
         </div>
         <div class="card-body">
           <div class="card-head">
@@ -1328,6 +1342,7 @@ ul { list-style: none; }
   ═══════════════════════════════════════════════════════ */
   const pizza = document.getElementById("flyingPizza");
   const anchors = Array.from(document.querySelectorAll(".pizza-anchor"));
+  const sideSpins = document.querySelectorAll(".card-a .card-pizza-spin, .card-c .card-pizza-spin");
 
   if (pizza && anchors.length >= 2 && !reduceMotion) {
 
@@ -1383,6 +1398,16 @@ ul { list-style: none; }
       pizza.style.height = h + "px";
       pizza.style.transform =
         `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${rot}deg)`;
+
+      // Pizzas latérales (cards a et c) : rotation inverse proportionnelle
+      // au scroll total, pour contre-tourner pendant que la pizza centrale
+      // voyage de gauche à droite
+      if (sideSpins.length) {
+        const lastDock = docks[docks.length - 1] || 1;
+        const totalProgress = clamp(scrollY / lastDock);
+        const sideAngle = -totalProgress * 720; // sens antihoraire, 720° au total
+        sideSpins.forEach(el => el.style.setProperty("--spin", sideAngle + "deg"));
+      }
     };
 
     // Throttle via rAF
