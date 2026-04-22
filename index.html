@@ -946,11 +946,9 @@ ul { list-style: none; }
   display: block;
 }
 .delivery-map .route {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  /* dasharray/offset seront définis en JS avec la vraie longueur,
-     puis animés au scroll via stroke-dashoffset */
-  filter: drop-shadow(0 2px 6px rgba(223,114,28,.35));
+  /* dasharray/offset sont définis en JS avec la vraie longueur de chaque
+     path, puis animés au scroll via stroke-dashoffset */
+  filter: drop-shadow(0 2px 6px rgba(223,114,28,.4));
 }
 .delivery-map .city {
   opacity: 0;
@@ -1302,23 +1300,25 @@ ul { list-style: none; }
       </p>
     </header>
 
-    <div class="delivery-content reveal" data-delay="1">
+    <div class="delivery-content">
 
       <!-- Carte SVG : Dieupentale centre, 8 communes autour -->
       <svg class="delivery-map" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg"
            role="img" aria-label="Carte des communes livrées depuis Dieupentale">
 
-        <!-- Grille de fond subtile -->
         <defs>
-          <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(244,238,228,.04)" stroke-width="1"/>
-          </pattern>
+          <radialGradient id="mapGlow" cx="50%" cy="54%" r="55%">
+            <stop offset="0%" stop-color="rgba(223,114,28,.12)"/>
+            <stop offset="60%" stop-color="rgba(223,114,28,.04)"/>
+            <stop offset="100%" stop-color="rgba(223,114,28,0)"/>
+          </radialGradient>
           <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#DF721C" stop-opacity=".6"/>
             <stop offset="100%" stop-color="#DF721C" stop-opacity="0"/>
           </radialGradient>
         </defs>
-        <rect width="1000" height="700" fill="url(#grid)"/>
+        <!-- Glow radial subtil centré sur Dieupentale -->
+        <rect width="1000" height="700" fill="url(#mapGlow)"/>
 
         <!-- Routes (courbes de Bézier depuis Dieupentale vers chaque commune) -->
         <g class="routes" fill="none" stroke="#DF721C" stroke-width="2.5"
@@ -1616,66 +1616,65 @@ ul { list-style: none; }
   }
 
   /* ═══════════════════════════════════════════════════════
-     CARTE DE LIVRAISON — animation SVG path drawing au scroll
-     Chaque route (courbe Bézier) se dessine au fur et à mesure
-     que l'utilisateur scrolle dans la section. Les points des
-     communes apparaissent une fois leur route dessinée.
+     CARTE DE LIVRAISON — SVG path drawing scroll-linked
+     Les 8 routes se dessinent progressivement au fur et à
+     mesure que l'utilisateur scrolle dans la section.
   ═══════════════════════════════════════════════════════ */
-  const deliverySection = document.getElementById("delivery");
-  const routes = deliverySection ? Array.from(deliverySection.querySelectorAll(".route")) : [];
-  const cities = deliverySection ? Array.from(deliverySection.querySelectorAll(".city:not(.city-main)")) : [];
+  const dSection = document.getElementById("delivery");
+  if (dSection) {
+    const dRoutes = Array.from(dSection.querySelectorAll(".route"));
+    const dCities = Array.from(dSection.querySelectorAll(".city:not(.city-main)"));
+    const clampD = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
 
-  if (deliverySection && routes.length && !(typeof reduceMotion !== "undefined" && reduceMotion)) {
-    // Initialiser les dasharray/offset pour chaque route
-    routes.forEach(p => {
+    // Initialiser : chaque route part invisible (dashoffset = longueur)
+    const initRoutes = () => dRoutes.forEach(p => {
       const len = p.getTotalLength();
       p.style.strokeDasharray = len;
       p.style.strokeDashoffset = len;
       p.dataset.len = len;
     });
-
-    const clampV = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
+    initRoutes();
 
     const drawRoutes = () => {
-      const rect = deliverySection.getBoundingClientRect();
+      const rect = dSection.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Progression 0→1 sur la traversée de la section
-      // 0 : bas de section arrive en bas du viewport
-      // 1 : bas de section atteint le milieu du viewport
-      const progress = clampV((vh - rect.top) / (vh * 0.9));
+      // Progression 0→1 sur le passage complet de la section dans le viewport
+      // 0 : haut de la section tout juste visible en bas du viewport
+      // 1 : bas de la section juste sorti par le haut
+      const total = vh + rect.height;
+      const scrolled = vh - rect.top;
+      const progress = clampD(scrolled / total);
 
-      routes.forEach((p, i) => {
-        // Étalement des routes : chaque route occupe 40% de la progression,
-        // décalée de 5% par route pour un effet cascade
-        const start = 0.10 + i * 0.05;
-        const end   = start + 0.35;
-        const t = clampV((progress - start) / (end - start));
+      dRoutes.forEach((p, i) => {
+        // Chaque route dessinée dans sa fenêtre de progression
+        const segStart = 0.15 + i * 0.05;
+        const segEnd   = segStart + 0.30;
+        const t = clampD((progress - segStart) / (segEnd - segStart));
         const len = parseFloat(p.dataset.len);
         p.style.strokeDashoffset = len * (1 - t);
 
-        // Activer le point de la ville correspondante quand la route est tracée >70%
-        if (t > 0.7 && cities[i]) cities[i].classList.add("active");
+        // Active le point de la commune quand la route est tracée > 75%
+        if (dCities[i]) dCities[i].classList.toggle("active", t > 0.75);
       });
     };
 
-    let rafDelivery = null;
-    const tickDelivery = () => {
-      if (rafDelivery == null) rafDelivery = requestAnimationFrame(() => {
-        rafDelivery = null;
-        drawRoutes();
-      });
-    };
-
-    window.addEventListener("scroll", tickDelivery, { passive: true });
-    window.addEventListener("resize", tickDelivery);
-    drawRoutes(); // init
-  } else if (deliverySection && routes.length) {
-    // reduce-motion : tout tracé directement
-    routes.forEach(p => {
-      p.style.strokeDasharray = "none";
-      p.style.strokeDashoffset = "0";
-    });
-    cities.forEach(c => c.classList.add("active"));
+    if (reduceMotion) {
+      // Pas d'animation : toutes les routes et villes affichées directement
+      dRoutes.forEach(p => { p.style.strokeDasharray = "none"; p.style.strokeDashoffset = "0"; });
+      dCities.forEach(c => c.classList.add("active"));
+    } else {
+      let rafD = null;
+      const tickD = () => {
+        if (rafD == null) rafD = requestAnimationFrame(() => {
+          rafD = null;
+          drawRoutes();
+        });
+      };
+      window.addEventListener("scroll", tickD, { passive: true });
+      window.addEventListener("resize", () => { initRoutes(); drawRoutes(); });
+      window.addEventListener("load", drawRoutes);
+      drawRoutes();
+    }
   }
 
 })();
