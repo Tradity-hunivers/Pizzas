@@ -1307,8 +1307,10 @@ ul { list-style: none; }
 
     const lerp = (a, b, t) => a + (b - a) * t;
     const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
-    // Ease-out quart : rapide au premier scroll, s'adoucit vers la fin
-    const ease = (t) => 1 - Math.pow(1 - t, 4);
+    // Easing linéaire : 1 pixel scrollé = 1 pixel de mouvement pizza.
+    // La pizza suit le scroll de façon continue — on la voit bien
+    // descendre et tourner tout au long de la course.
+    const ease = (t) => t;
 
     // Position de "docking" d'une ancre = scroll Y où son centre
     // se place au centre du viewport. L'ancre 0 (hero) est forcée à 0
