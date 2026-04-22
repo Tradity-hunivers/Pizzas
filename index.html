@@ -375,6 +375,12 @@ ul { list-style: none; }
   font-weight: 400;
   color: var(--accent);
 }
+/* Mot accentué : orange + gras, sans italique (utilisé dans hero et h-section) */
+.accent-bold {
+  color: var(--accent);
+  font-weight: 900;
+  font-style: normal;
+}
 .hero-title .word {
   display: inline-block;
   opacity: 0;
@@ -410,7 +416,7 @@ ul { list-style: none; }
 .hero-visual {
   position: relative;
   width: min(1400px, 96vw);
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 9;
   margin: 0 auto;
   opacity: 0;
   animation: hero-visual 1.2s .3s var(--ease-out) forwards;
@@ -418,17 +424,16 @@ ul { list-style: none; }
 @keyframes hero-visual {
   to { opacity: 1; }
 }
-/* Ancre de la pizza volante : centre-bas, pizza XXL
-   On contraint la taille via max-width pour éviter qu'elle
-   dépasse trop verticalement quand la scène est très plate */
+/* Ancre de la pizza volante : bas-centre, pizza XXL
+   Capée à 85vh pour ne pas déborder du viewport sur petits écrans */
 .hero-visual .pizza-anchor {
   position: absolute;
-  top: 55%;
+  top: 58%;
   left: 50%;
   right: auto;
   bottom: auto;
   transform: translate(-50%, -50%);
-  width: min(70%, 820px);
+  width: min(85%, 1050px, 85vh);
   aspect-ratio: 1 / 1;
   z-index: 2;
 }
@@ -1036,10 +1041,10 @@ ul { list-style: none; }
     <div class="hero-head">
       <h1 class="hero-title" id="hero-title">
         <span class="word" style="animation-delay:0s">Votre</span>
-        <span class="word italic" style="animation-delay:.08s">vraie</span>
-        <span class="word" style="animation-delay:.16s">pizza</span><br>
+        <span class="word accent-bold" style="animation-delay:.08s">vraie</span>
+        <span class="word accent-bold" style="animation-delay:.16s">pizza</span><br>
         <span class="word" style="animation-delay:.24s">commence</span>
-        <span class="word italic" style="animation-delay:.32s">ici.</span>
+        <span class="word" style="animation-delay:.32s">ici.</span>
       </h1>
 
       <p class="hero-sub reveal">
@@ -1106,8 +1111,8 @@ ul { list-style: none; }
       <div class="showcase-text reveal" data-delay="1">
         <span class="sec-num">§ 01 — La Margherita</span>
         <h2 class="h-section" id="trio-title">
-          Une part de <span class="italic">perfection</span><br>
-          à chaque <span class="italic">bouchée.</span>
+          Une part de <span class="accent-bold">perfection</span><br>
+          à chaque bouchée.
         </h2>
         <p class="lead">
           Pâte maturée 48h, sauce tomate maison, mozzarella fior di latte,
