@@ -212,22 +212,24 @@ ul { list-style: none; }
   max-width: 54ch;
 }
 
-/* CTAs */
+/* CTAs — pills arrondis, texte centré */
 .btn {
   --bg-btn: var(--ink);
   --fg-btn: var(--bg);
-  display: inline-flex; align-items: center; gap: 14px;
-  padding: 18px 28px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 15px 32px;
   background: var(--bg-btn); color: var(--fg-btn);
   font-family: var(--f-body);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  border-radius: 2px;
-  transition: transform .4s var(--ease-out), background .25s var(--ease);
+  border-radius: 999px;
+  transition: transform .4s var(--ease-out), background .25s var(--ease), box-shadow .3s var(--ease);
   position: relative; overflow: hidden;
 }
+.btn.primary { box-shadow: 0 8px 22px rgba(223,114,28,.28); }
+.btn.primary:hover { box-shadow: 0 12px 28px rgba(223,114,28,.4); }
 .btn:hover { --bg-btn: var(--accent); transform: translateY(-2px); }
 .btn.primary { --bg-btn: var(--accent); }
 .btn.primary:hover { --bg-btn: var(--accent-dk); }
@@ -255,27 +257,15 @@ ul { list-style: none; }
   gap: 30px;
 }
 .brand {
-  font-family: var(--f-display);
-  font-weight: 900;
-  font-style: italic;
-  font-size: 24px;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  padding-right: 10px;
 }
-.brand::after {
-  content: "· Dieupentale";
-  font-family: var(--f-body);
-  font-weight: 400;
-  font-size: 11px;
-  font-style: normal;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--muted);
+.brand img {
+  height: clamp(48px, 4vw, 62px);
+  width: auto;
   display: block;
-  line-height: 1;
-  margin-top: 2px;
+  object-fit: contain;
 }
 .nav-links {
   display: flex; align-items: center; gap: 36px;
@@ -424,16 +414,16 @@ ul { list-style: none; }
 @keyframes hero-visual {
   to { opacity: 1; }
 }
-/* Ancre de la pizza volante : bas-centre, pizza XXL
-   Capée à 85vh pour ne pas déborder du viewport sur petits écrans */
+/* Ancre de la pizza volante : bas-centre, PIZZA DOMINANTE
+   Max 1300px sur très grand écran, responsive sur petits écrans */
 .hero-visual .pizza-anchor {
   position: absolute;
-  top: 58%;
+  top: 60%;
   left: 50%;
   right: auto;
   bottom: auto;
   transform: translate(-50%, -50%);
-  width: min(85%, 1050px, 85vh);
+  width: min(92%, 1300px);
   aspect-ratio: 1 / 1;
   z-index: 2;
 }
@@ -987,8 +977,8 @@ ul { list-style: none; }
 ═══════════════════════════════════════════════════════════ -->
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="#" class="brand" aria-label="Pinocchio Pizza — accueil">
-      Pinocchio<span aria-hidden="true">.</span>
+    <a href="#" class="brand" aria-label="Le Pinocchio Pizzas — accueil">
+      <img src="./images/logo.png" alt="Le Pinocchio Pizzas — Dieupentale" width="220" height="220">
     </a>
     <nav class="nav-links" aria-label="Navigation principale">
       <a href="#trio">Pizzas</a>
