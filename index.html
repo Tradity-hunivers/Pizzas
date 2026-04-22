@@ -639,7 +639,7 @@ ul { list-style: none; }
 
 /* ─── SECTION 2 : product showcase (pizza + labels + texte) ─ */
 .trio {
-  padding: clamp(80px, 12vw, 140px) 0;
+  padding: clamp(60px, 8vw, 110px) 0 clamp(30px, 4vw, 50px);
   background: var(--bg);
   position: relative;
   overflow: hidden;
@@ -727,6 +727,28 @@ ul { list-style: none; }
 .pizza-label.label-mozza   { top: 45%; right: -14%; animation-delay: .65s; }
 .pizza-label.label-basilic { bottom: 8%; left: 10%; animation-delay: .8s; }
 
+/* Petits ingrédients décoratifs flottants autour de la pizza */
+.showcase-ing {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.4));
+  opacity: 0;
+  animation: ingredient-in .8s var(--ease-out) forwards;
+  z-index: 2;
+  will-change: transform;
+}
+.showcase-ing.s-basil-tl  { top: -4%;  left: 30%; width: 13%; --rot:-20deg; animation-delay: .35s; }
+.showcase-ing.s-tomato-tr { top: 16%;  right:-6%; width:  9%; --rot: 15deg; animation-delay: .50s; }
+.showcase-ing.s-olives-br { bottom:-2%; right:18%; width: 12%; --rot:-10deg; animation-delay: .65s; }
+.showcase-ing.s-basil-bl  { bottom:14%; left: -4%; width: 11%; --rot: 35deg; animation-delay: .80s; }
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-ing {
+    animation: ingredient-in .8s var(--ease-out) forwards,
+               float 6s 1.2s ease-in-out infinite;
+  }
+}
+
 /* Texte à droite */
 .showcase-text .sec-num { margin-bottom: 18px; }
 .showcase-text .h-section { margin-bottom: 24px; }
@@ -757,7 +779,7 @@ ul { list-style: none; }
 
 /* ─── PIZZAIOLO (nouvelle section) ───────────────────────── */
 .pizzaiolo {
-  padding: clamp(80px, 12vw, 160px) 0;
+  padding: clamp(40px, 5vw, 70px) 0 clamp(80px, 12vw, 140px);
   background: var(--bg-deep);
   position: relative;
   overflow: hidden;
@@ -1028,6 +1050,12 @@ ul { list-style: none; }
       <div class="showcase-visual reveal">
         <!-- Ancre 2 : la pizza volante se cale ici -->
         <div class="pizza-anchor anchor-trio" data-rotate="360" aria-hidden="true"></div>
+
+        <!-- Petits ingrédients décoratifs autour de la pizza -->
+        <img class="showcase-ing s-basil-tl"  src="./images/ingredient/4.png" alt="" loading="lazy" decoding="async">
+        <img class="showcase-ing s-tomato-tr" src="./images/ingredient/1.png" alt="" loading="lazy" decoding="async">
+        <img class="showcase-ing s-olives-br" src="./images/ingredient/3.png" alt="" loading="lazy" decoding="async">
+        <img class="showcase-ing s-basil-bl"  src="./images/ingredient/4.png" alt="" loading="lazy" decoding="async">
 
         <!-- Labels qui pointent les ingrédients -->
         <div class="pizza-label label-tomate">
