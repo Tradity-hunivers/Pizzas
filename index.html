@@ -905,6 +905,88 @@ ul { list-style: none; }
   z-index: 1;
 }
 
+/* Footer du trio : bouton Voir toute la carte */
+.cards-footer {
+  margin-top: clamp(40px, 5vw, 70px);
+  text-align: center;
+}
+
+/* ─── SECTION 4 : livraison avec carte SVG animée ────────── */
+.delivery {
+  padding: clamp(60px, 8vw, 110px) 0 clamp(80px, 11vw, 140px);
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.delivery-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(40px, 6vw, 70px);
+}
+.delivery-kicker {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.delivery-header .h-section { margin-bottom: 20px; }
+.delivery-header .lead { margin-inline: auto; }
+
+.delivery-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.delivery-map {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 700;
+  display: block;
+}
+.delivery-map .route {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  /* dasharray/offset seront définis en JS avec la vraie longueur,
+     puis animés au scroll via stroke-dashoffset */
+  filter: drop-shadow(0 2px 6px rgba(223,114,28,.35));
+}
+.delivery-map .city {
+  opacity: 0;
+  transform-box: fill-box;
+  transition: opacity .5s var(--ease-out);
+}
+.delivery-map .city.active { opacity: 1; }
+.delivery-map .city-main { opacity: 1; }
+.delivery-map .city-label {
+  font-family: var(--f-body);
+  font-size: 14px;
+  font-weight: 500;
+  fill: var(--ink-soft);
+  text-anchor: middle;
+  letter-spacing: .02em;
+}
+.delivery-map .city-label.main {
+  fill: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .04em;
+}
+.delivery-map .pulse-ring {
+  transform-origin: 500px 380px;
+  animation: pulse-grow 2.5s ease-in-out infinite;
+}
+@keyframes pulse-grow {
+  0%, 100% { transform: scale(1); opacity: .8; }
+  50%      { transform: scale(1.8); opacity: .2; }
+}
+
+.delivery-cta {
+  text-align: center;
+  margin-top: clamp(40px, 5vw, 60px);
+}
+
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; }
@@ -1194,6 +1276,94 @@ ul { list-style: none; }
       </article>
 
     </div>
+
+    <div class="cards-footer reveal">
+      <a href="tel:+33563316451" class="btn ghost" data-track="click_menu">
+        Voir toute la carte <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4 — Carte de livraison avec animation SVG
+═══════════════════════════════════════════════════════════ -->
+<section class="delivery" id="delivery" aria-labelledby="delivery-title">
+  <div class="wrap">
+
+    <header class="delivery-header reveal">
+      <span class="delivery-kicker">§ Livraison</span>
+      <h2 class="h-section" id="delivery-title">
+        On vient <span class="accent-bold">jusqu'à vous.</span>
+      </h2>
+      <p class="lead">
+        9 communes livrées autour de Dieupentale — sans frais supplémentaires
+        pour les commandes supérieures à 15€.
+      </p>
+    </header>
+
+    <div class="delivery-content reveal" data-delay="1">
+
+      <!-- Carte SVG : Dieupentale centre, 8 communes autour -->
+      <svg class="delivery-map" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Carte des communes livrées depuis Dieupentale">
+
+        <!-- Grille de fond subtile -->
+        <defs>
+          <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(244,238,228,.04)" stroke-width="1"/>
+          </pattern>
+          <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#DF721C" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#DF721C" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="1000" height="700" fill="url(#grid)"/>
+
+        <!-- Routes (courbes de Bézier depuis Dieupentale vers chaque commune) -->
+        <g class="routes" fill="none" stroke="#DF721C" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+          <path class="route" d="M500,380 Q540,420 560,470" data-city="Grisolles"/>
+          <path class="route" d="M500,380 Q400,390 310,410" data-city="Verdun-sur-Garonne"/>
+          <path class="route" d="M500,380 Q460,450 420,540" data-city="Canals"/>
+          <path class="route" d="M500,380 Q590,380 640,360" data-city="Campsas"/>
+          <path class="route" d="M500,380 Q560,330 600,260" data-city="Finhan"/>
+          <path class="route" d="M500,380 Q440,360 390,330" data-city="Monbéqui"/>
+          <path class="route" d="M500,380 Q620,300 700,200" data-city="Montbartier"/>
+          <path class="route" d="M500,380 Q640,440 750,520" data-city="Pompignan"/>
+        </g>
+
+        <!-- Pulse animé autour de Dieupentale -->
+        <circle class="pulse-ring" cx="500" cy="380" r="40" fill="url(#pulse)"/>
+
+        <!-- Points des communes -->
+        <g class="cities">
+          <!-- Dieupentale (centre, gros point) -->
+          <g class="city city-main" transform="translate(500 380)">
+            <circle r="10" fill="#DF721C"/>
+            <circle r="5" fill="#F4EEE4"/>
+            <text y="-20" class="city-label main">Dieupentale</text>
+          </g>
+          <!-- Autres communes -->
+          <g class="city" data-delay=".6"  transform="translate(560 470)"><circle r="6" fill="#F4EEE4"/><text y="22" class="city-label">Grisolles</text></g>
+          <g class="city" data-delay=".7"  transform="translate(310 410)"><circle r="6" fill="#F4EEE4"/><text y="22" class="city-label">Verdun-sur-Garonne</text></g>
+          <g class="city" data-delay=".8"  transform="translate(420 540)"><circle r="6" fill="#F4EEE4"/><text y="22" class="city-label">Canals</text></g>
+          <g class="city" data-delay=".9"  transform="translate(640 360)"><circle r="6" fill="#F4EEE4"/><text y="22" class="city-label">Campsas</text></g>
+          <g class="city" data-delay="1.0" transform="translate(600 260)"><circle r="6" fill="#F4EEE4"/><text y="-14" class="city-label">Finhan</text></g>
+          <g class="city" data-delay="1.1" transform="translate(390 330)"><circle r="6" fill="#F4EEE4"/><text y="-14" class="city-label">Monbéqui</text></g>
+          <g class="city" data-delay="1.2" transform="translate(700 200)"><circle r="6" fill="#F4EEE4"/><text y="-14" class="city-label">Montbartier</text></g>
+          <g class="city" data-delay="1.3" transform="translate(750 520)"><circle r="6" fill="#F4EEE4"/><text y="22" class="city-label">Pompignan</text></g>
+        </g>
+      </svg>
+
+    </div>
+
+    <div class="delivery-cta reveal" data-delay="2">
+      <a href="tel:+33563316451" class="btn primary" data-track="click_reservation">
+        Commander pour une livraison <span class="arrow">→</span>
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1443,6 +1613,69 @@ ul { list-style: none; }
     // on cale simplement la pizza sur la première ancre et on la masque
     // (elle est déjà visuellement couverte par la hero-visual).
     pizza.style.display = "none";
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CARTE DE LIVRAISON — animation SVG path drawing au scroll
+     Chaque route (courbe Bézier) se dessine au fur et à mesure
+     que l'utilisateur scrolle dans la section. Les points des
+     communes apparaissent une fois leur route dessinée.
+  ═══════════════════════════════════════════════════════ */
+  const deliverySection = document.getElementById("delivery");
+  const routes = deliverySection ? Array.from(deliverySection.querySelectorAll(".route")) : [];
+  const cities = deliverySection ? Array.from(deliverySection.querySelectorAll(".city:not(.city-main)")) : [];
+
+  if (deliverySection && routes.length && !(typeof reduceMotion !== "undefined" && reduceMotion)) {
+    // Initialiser les dasharray/offset pour chaque route
+    routes.forEach(p => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      p.dataset.len = len;
+    });
+
+    const clampV = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
+
+    const drawRoutes = () => {
+      const rect = deliverySection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progression 0→1 sur la traversée de la section
+      // 0 : bas de section arrive en bas du viewport
+      // 1 : bas de section atteint le milieu du viewport
+      const progress = clampV((vh - rect.top) / (vh * 0.9));
+
+      routes.forEach((p, i) => {
+        // Étalement des routes : chaque route occupe 40% de la progression,
+        // décalée de 5% par route pour un effet cascade
+        const start = 0.10 + i * 0.05;
+        const end   = start + 0.35;
+        const t = clampV((progress - start) / (end - start));
+        const len = parseFloat(p.dataset.len);
+        p.style.strokeDashoffset = len * (1 - t);
+
+        // Activer le point de la ville correspondante quand la route est tracée >70%
+        if (t > 0.7 && cities[i]) cities[i].classList.add("active");
+      });
+    };
+
+    let rafDelivery = null;
+    const tickDelivery = () => {
+      if (rafDelivery == null) rafDelivery = requestAnimationFrame(() => {
+        rafDelivery = null;
+        drawRoutes();
+      });
+    };
+
+    window.addEventListener("scroll", tickDelivery, { passive: true });
+    window.addEventListener("resize", tickDelivery);
+    drawRoutes(); // init
+  } else if (deliverySection && routes.length) {
+    // reduce-motion : tout tracé directement
+    routes.forEach(p => {
+      p.style.strokeDasharray = "none";
+      p.style.strokeDashoffset = "0";
+    });
+    cities.forEach(c => c.classList.add("active"));
   }
 
 })();
