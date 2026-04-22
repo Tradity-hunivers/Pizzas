@@ -1283,17 +1283,15 @@ ul { list-style: none; }
     const ease = (t) => 1 - Math.pow(1 - t, 4);
 
     // Position de "docking" d'une ancre = scroll Y où son centre
-    // se place au centre du viewport.
-    const computeDocks = () => anchors.map(a => {
+    // se place au centre du viewport. L'ancre 0 (hero) est forcée à 0
+    // pour supprimer le "dead zone" : la pizza commence à bouger dès
+    // le premier pixel scrollé (pas besoin de scroller dans le vide).
+    const computeDocks = () => anchors.map((a, i) => {
+      if (i === 0) return 0;
       const r = a.getBoundingClientRect();
       const centerDoc = r.top + window.scrollY + r.height / 2;
       return Math.max(0, centerDoc - window.innerHeight / 2);
     });
-
-    // Compresseur : la pizza atteint sa destination après 55% de la distance
-    // de scroll seulement (au lieu de 100%). Résultat : ça va vite dès
-    // le premier coup de souris vers le bas, puis ça reste stable.
-    const SCROLL_COMPRESS = 0.55;
 
     let docks = computeDocks();
 
@@ -1309,8 +1307,7 @@ ul { list-style: none; }
       // Progression 0→1 dans le segment, avec easing
       const start = docks[seg];
       const end   = docks[seg + 1];
-      const span  = (end - start) * SCROLL_COMPRESS;
-      const raw   = span === 0 ? 0 : (scrollY - start) / span;
+      const raw   = end === start ? 0 : (scrollY - start) / (end - start);
       const t     = ease(clamp(raw));
 
       // Rectangles actuels des deux ancres
