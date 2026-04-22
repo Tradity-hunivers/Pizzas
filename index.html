@@ -637,7 +637,7 @@ ul { list-style: none; }
   }
 }
 
-/* ─── TRIO : trois pizzas côte à côte ────────────────────── */
+/* ─── SECTION 2 : product showcase (pizza + labels + texte) ─ */
 .trio {
   padding: clamp(80px, 12vw, 140px) 0;
   background: var(--bg);
@@ -645,101 +645,114 @@ ul { list-style: none; }
   overflow: hidden;
 }
 .trio .wrap { position: relative; }
-.trio-header {
-  text-align: center;
-  max-width: 620px;
-  margin: 0 auto clamp(50px, 7vw, 90px);
-}
-.trio-header .sec-num { justify-content: center; margin-bottom: 18px; }
-.trio-header .sec-num::before { display: none; }
-.trio-header .h-section { margin-bottom: 18px; }
-.trio-header .lead { margin-inline: auto; }
 
-.trio-grid {
+/* Grid 2 colonnes : pizza à gauche, texte à droite */
+.showcase-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 3vw, 60px);
-  align-items: start;
-  position: relative;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
 }
-.trio-card {
-  text-align: center;
-  position: relative;
-}
-.trio-card-visual {
+
+/* Visuel pizza à gauche (contient l'ancre + les labels) */
+.showcase-visual {
   position: relative;
   aspect-ratio: 1 / 1;
-  max-width: 340px;
-  margin: 0 auto 28px;
+  width: min(580px, 100%);
+  margin: 0 auto;
 }
-.trio-card-visual img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 25px 45px rgba(26,20,16,.22));
-  transition: transform .8s var(--ease-out);
-}
-.trio-card:hover .trio-card-visual img { transform: rotate(8deg) scale(1.04); }
-/* Cercle décoratif derrière la pizza du centre */
-.trio-card.center .trio-card-visual::before {
+/* Halo orange derrière la pizza */
+.showcase-visual::before {
   content: "";
   position: absolute;
-  inset: 8%;
+  inset: 5%;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, rgba(223,114,28,.18), transparent 65%);
+  background: radial-gradient(circle at 40% 40%, rgba(223,114,28,.22), transparent 60%);
   z-index: 0;
 }
-.trio-card.center .trio-card-visual::after {
-  /* Cercle fin pointillé — repère visuel discret derrière la pizza */
-  content: "";
+/* L'ancre remplit le cadre visuel */
+.showcase-visual .anchor-trio {
   position: absolute;
-  inset: 12%;
-  border-radius: 50%;
-  border: 1px dashed rgba(223,114,28,.28);
-  z-index: 0;
+  inset: 6%;
+  aspect-ratio: 1 / 1;
+  z-index: 1;
 }
 
-.trio-card-num {
+/* Labels qui pointent les ingrédients de la pizza */
+.pizza-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  padding: 10px 14px 10px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  z-index: 3;
+  box-shadow: 0 10px 24px rgba(0,0,0,.4);
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: label-in .7s var(--ease-out) forwards;
+}
+@keyframes label-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+.pizza-label .label-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(223,114,28,.25);
+}
+.pizza-label .label-text {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.pizza-label .label-kicker {
   font-family: var(--f-display);
   font-style: italic;
-  font-size: 14px;
-  color: var(--muted);
-  letter-spacing: .1em;
-  margin-bottom: 10px;
-  display: inline-block;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 12px;
 }
-.trio-card.center .trio-card-num { color: var(--accent); font-weight: 600; }
-.trio-card-name {
-  font-family: var(--f-display);
-  font-weight: 900;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 12px;
+
+/* Positions individuelles des 3 labels autour de la pizza */
+.pizza-label.label-tomate  { top:  6%; left: -8%;  animation-delay: .5s; }
+.pizza-label.label-mozza   { top: 45%; right: -14%; animation-delay: .65s; }
+.pizza-label.label-basilic { bottom: 8%; left: 10%; animation-delay: .8s; }
+
+/* Texte à droite */
+.showcase-text .sec-num { margin-bottom: 18px; }
+.showcase-text .h-section { margin-bottom: 24px; }
+.showcase-text .lead { margin-bottom: 32px; max-width: 52ch; }
+.showcase-cta {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
 }
-.trio-card-name .italic { font-style: italic; font-weight: 400; color: var(--accent); }
-.trio-card-desc {
+.showcase-price {
+  font-family: var(--f-body);
   font-size: 14px;
   color: var(--ink-soft);
-  max-width: 28ch;
-  margin: 0 auto 16px;
-  line-height: 1.5;
 }
-.trio-card-price {
+.showcase-price strong {
   font-family: var(--f-display);
   font-weight: 600;
-  font-size: 22px;
+  font-size: 20px;
   color: var(--ink);
+  margin-left: 2px;
 }
-.trio-card-price .cents { font-size: .55em; vertical-align: super; font-weight: 500; }
-.trio-card-price .eur { font-size: .6em; color: var(--muted); margin-left: 2px; vertical-align: 4px; }
-
-/* L'ancre remplit la carte du centre */
-.anchor-trio {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+.showcase-price .cents {
+  font-size: .55em;
+  vertical-align: super;
+  font-weight: 500;
 }
 
 /* ─── PIZZAIOLO (nouvelle section) ───────────────────────── */
@@ -860,8 +873,10 @@ ul { list-style: none; }
 @media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; }
   .hero-visual { max-width: 480px; margin-inline: auto; }
-  .trio-grid { grid-template-columns: 1fr; gap: 50px; }
-  .trio-card-visual { max-width: 280px; }
+  .showcase-grid { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+  .showcase-visual { max-width: 440px; }
+  .showcase-text .lead { margin-inline: auto; }
+  .showcase-cta { justify-content: center; }
   .pizzaiolo-grid { grid-template-columns: 1fr; }
   .pizzaiolo-visual { max-width: 420px; }
   .nav-links { display: none; }
@@ -1003,60 +1018,63 @@ ul { list-style: none; }
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     TRIO — trois signatures, la pizza volante comble le centre
+     SECTION 2 — Product showcase : pizza à gauche + labels + texte droite
 ═══════════════════════════════════════════════════════════ -->
 <section class="trio" id="trio" aria-labelledby="trio-title">
   <div class="wrap">
+    <div class="showcase-grid">
 
-    <header class="trio-header reveal">
-      <span class="sec-num">§ 01 — Trois signatures</span>
-      <h2 class="h-section" id="trio-title">
-        Les <span class="italic">incontournables.</span>
-      </h2>
-      <p class="lead">
-        Trois pizzas qui résument la maison : commandées, recommandées, goûtées et regoûtées.
-      </p>
-    </header>
+      <!-- Pizza à gauche avec labels qui pointent ses ingrédients -->
+      <div class="showcase-visual reveal">
+        <!-- Ancre 2 : la pizza volante se cale ici -->
+        <div class="pizza-anchor anchor-trio" data-rotate="360" aria-hidden="true"></div>
 
-    <div class="trio-grid">
-
-      <!-- Gauche -->
-      <article class="trio-card reveal">
-        <div class="trio-card-visual">
-          <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=700&q=80"
-               alt="Pizza Napolitaine — tomate, mozzarella, anchois, câpres, olives"
-               width="700" height="700" loading="lazy" decoding="async">
+        <!-- Labels qui pointent les ingrédients -->
+        <div class="pizza-label label-tomate">
+          <span class="label-dot" aria-hidden="true"></span>
+          <span class="label-text">
+            <span class="label-kicker">01 ·</span>
+            Tomate San Marzano
+          </span>
         </div>
-        <span class="trio-card-num">· 01 ·</span>
-        <h3 class="trio-card-name">La <span class="italic">Napolitaine</span></h3>
-        <p class="trio-card-desc">Tomate, mozzarella, anchois de Collioure, câpres, olives noires.</p>
-        <div class="trio-card-price">11<span class="cents">50</span><span class="eur">€</span></div>
-      </article>
-
-      <!-- Centre : slot d'accueil de la pizza volante -->
-      <article class="trio-card center reveal" data-delay="1">
-        <div class="trio-card-visual">
-          <!-- Ancre 2 : la pizza volante vient combler ce slot -->
-          <div class="pizza-anchor anchor-trio" data-rotate="360" aria-hidden="true"></div>
+        <div class="pizza-label label-mozza">
+          <span class="label-dot" aria-hidden="true"></span>
+          <span class="label-text">
+            <span class="label-kicker">02 ·</span>
+            Fior di latte
+          </span>
         </div>
-        <span class="trio-card-num">· 02 · la maison ·</span>
-        <h3 class="trio-card-name">La <span class="italic">Margherita</span></h3>
-        <p class="trio-card-desc">Tomate maison, fior di latte, basilic frais, huile d'olive vierge.</p>
-        <div class="trio-card-price">10<span class="cents">50</span><span class="eur">€</span></div>
-      </article>
-
-      <!-- Droite -->
-      <article class="trio-card reveal" data-delay="2">
-        <div class="trio-card-visual">
-          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80"
-               alt="Pizza Chorizo — tomate, mozzarella, chorizo ibérique, poivrons"
-               width="700" height="700" loading="lazy" decoding="async">
+        <div class="pizza-label label-basilic">
+          <span class="label-dot" aria-hidden="true"></span>
+          <span class="label-text">
+            <span class="label-kicker">03 ·</span>
+            Basilic frais
+          </span>
         </div>
-        <span class="trio-card-num">· 03 ·</span>
-        <h3 class="trio-card-name">Le <span class="italic">Chorizo</span></h3>
-        <p class="trio-card-desc">Tomate, mozzarella, chorizo ibérique, poivrons grillés, piment d'Espelette.</p>
-        <div class="trio-card-price">12<span class="cents">00</span><span class="eur">€</span></div>
-      </article>
+      </div>
+
+      <!-- Texte à droite -->
+      <div class="showcase-text reveal" data-delay="1">
+        <span class="sec-num">§ 01 — La Margherita</span>
+        <h2 class="h-section" id="trio-title">
+          Une part de <span class="italic">perfection</span><br>
+          à chaque <span class="italic">bouchée.</span>
+        </h2>
+        <p class="lead">
+          Pâte maturée 48h, sauce tomate maison, mozzarella fior di latte,
+          basilic frais et huile d'olive vierge. Chaque ingrédient est choisi,
+          chaque geste est précis — une pizza qui n'est jamais pareille, jamais
+          meilleure qu'ici.
+        </p>
+        <div class="showcase-cta">
+          <a href="tel:+33563316451" class="btn primary" data-track="click_reservation">
+            Commander <span class="arrow">→</span>
+          </a>
+          <span class="showcase-price">
+            à partir de <strong>10<span class="cents">50</span>€</strong>
+          </span>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -1261,16 +1279,21 @@ ul { list-style: none; }
 
     const lerp = (a, b, t) => a + (b - a) * t;
     const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
-    // Courbe d'easing douce type Figma — cubic-bezier in/out
-    const ease = (t) => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    // Ease-out quart : rapide au premier scroll, s'adoucit vers la fin
+    const ease = (t) => 1 - Math.pow(1 - t, 4);
 
     // Position de "docking" d'une ancre = scroll Y où son centre
-    // se place au centre du viewport
+    // se place au centre du viewport.
     const computeDocks = () => anchors.map(a => {
       const r = a.getBoundingClientRect();
       const centerDoc = r.top + window.scrollY + r.height / 2;
       return Math.max(0, centerDoc - window.innerHeight / 2);
     });
+
+    // Compresseur : la pizza atteint sa destination après 55% de la distance
+    // de scroll seulement (au lieu de 100%). Résultat : ça va vite dès
+    // le premier coup de souris vers le bas, puis ça reste stable.
+    const SCROLL_COMPRESS = 0.55;
 
     let docks = computeDocks();
 
@@ -1286,7 +1309,8 @@ ul { list-style: none; }
       // Progression 0→1 dans le segment, avec easing
       const start = docks[seg];
       const end   = docks[seg + 1];
-      const raw   = end === start ? 0 : (scrollY - start) / (end - start);
+      const span  = (end - start) * SCROLL_COMPRESS;
+      const raw   = span === 0 ? 0 : (scrollY - start) / span;
       const t     = ease(clamp(raw));
 
       // Rectangles actuels des deux ancres
