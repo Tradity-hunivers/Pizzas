@@ -342,14 +342,14 @@ ul { list-style: none; }
 /* ─── HERO ─── layout centré : titre + pizza + ingrédients ── */
 .hero {
   position: relative;
-  padding: clamp(20px, 3vw, 50px) 0 clamp(30px, 5vw, 60px);
+  padding: clamp(20px, 3vw, 50px) 0 clamp(0px, 1vw, 10px);
   overflow: hidden;
 }
 .hero-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(30px, 4vw, 50px);
+  gap: clamp(20px, 3vw, 40px);
   width: var(--wrap);
 }
 
@@ -410,7 +410,7 @@ ul { list-style: none; }
 .hero-visual {
   position: relative;
   width: min(1400px, 96vw);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 7;
   margin: 0 auto;
   opacity: 0;
   animation: hero-visual 1.2s .3s var(--ease-out) forwards;
@@ -418,7 +418,9 @@ ul { list-style: none; }
 @keyframes hero-visual {
   to { opacity: 1; }
 }
-/* Ancre de la pizza volante : bas-centre, 90% de la scène — PIZZA XXL */
+/* Ancre de la pizza volante : centre-bas, pizza XXL
+   On contraint la taille via max-width pour éviter qu'elle
+   dépasse trop verticalement quand la scène est très plate */
 .hero-visual .pizza-anchor {
   position: absolute;
   top: 55%;
@@ -426,7 +428,7 @@ ul { list-style: none; }
   right: auto;
   bottom: auto;
   transform: translate(-50%, -50%);
-  width: 90%;
+  width: min(70%, 820px);
   aspect-ratio: 1 / 1;
   z-index: 2;
 }
@@ -633,7 +635,7 @@ ul { list-style: none; }
 
 /* ─── SECTION 2 : product showcase (pizza + labels + texte) ─ */
 .trio {
-  padding: clamp(60px, 8vw, 110px) 0 clamp(30px, 4vw, 50px);
+  padding: clamp(30px, 4vw, 60px) 0 clamp(20px, 3vw, 40px);
   background: var(--bg);
   position: relative;
   overflow: hidden;
