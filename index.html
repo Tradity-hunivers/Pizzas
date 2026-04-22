@@ -601,19 +601,21 @@ ul { list-style: none; }
   to   { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
 }
 
-/* Positions harmonisées — 2 colonnes (gauche / droite) qui encadrent
-   le titre et descendent vers la pizza. Tailles proches pour l'équilibre. */
+/* Positions harmonisées — 4 ingrédients à gauche + 4 à droite.
+   Espacement vertical régulier (~15%) entre chaque ; tailles
+   homogènes pour un effet "cadre" autour du titre. */
 
-/* Colonne gauche (3 ingrédients espacés verticalement) */
-.hero .ing-basil-top   { top: 10%; left:  5%; width: 8%; --rot:-18deg; animation-delay: .25s; }
-.hero .ing-olives-left { top: 26%; left:  5%; width: 7%; --rot:-10deg; animation-delay: .45s; }
-.hero .ing-tomato-btm  { top: 42%; left:  6%; width: 6%; --rot: 15deg; animation-delay: .65s; }
+/* Colonne gauche (top → bottom) */
+.hero .ing-basil-left   { top: 10%; left: 5%; width: 8%; --rot:-18deg; animation-delay: .25s; }
+.hero .ing-chili-left   { top: 25%; left: 5%; width: 8%; --rot: 20deg; animation-delay: .40s; }
+.hero .ing-olives-left  { top: 40%; left: 5%; width: 7%; --rot:-10deg; animation-delay: .55s; }
+.hero .ing-tomato-left  { top: 55%; left: 6%; width: 6%; --rot: 15deg; animation-delay: .70s; }
 
-/* Colonne droite (4 ingrédients espacés verticalement) */
-.hero .ing-tomato-top  { top: 10%; right: 5%; width: 7%; --rot: 12deg; animation-delay: .30s; }
-.hero .ing-basil-right { top: 24%; right: 5%; width: 8%; --rot: 30deg; animation-delay: .50s; }
-.hero .ing-chili       { top: 38%; right: 4%; width: 8%; --rot:-30deg; animation-delay: .70s; }
-.hero .ing-mushroom    { top: 52%; right: 5%; width: 7%; --rot:-8deg;  animation-delay: .60s; }
+/* Colonne droite (top → bottom) */
+.hero .ing-tomato-right { top: 10%; right: 5%; width: 7%; --rot: 12deg; animation-delay: .30s; }
+.hero .ing-basil-right  { top: 25%; right: 5%; width: 8%; --rot: 30deg; animation-delay: .45s; }
+.hero .ing-olives-right { top: 40%; right: 5%; width: 7%; --rot: 10deg; animation-delay: .60s; }
+.hero .ing-mushroom     { top: 55%; right: 5%; width: 7%; --rot: -8deg; animation-delay: .75s; }
 
 /* Positions autour du pizzaiolo */
 .pizzaiolo-visual .p-basil-1   { top:  2%; left:  4%; width: 14%; --rot:-30deg; animation-delay: .20s; }
@@ -958,14 +960,17 @@ ul { list-style: none; }
 ═══════════════════════════════════════════════════════════ -->
 <section class="hero" aria-labelledby="hero-title">
 
-  <!-- Ingrédients flottants au niveau du titre (positionnés sur la section) -->
-  <img class="ingredient ing-basil-top"   src="./images/ingredient/4.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-tomato-top"  src="./images/ingredient/1.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-olives-left" src="./images/ingredient/3.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-basil-right" src="./images/ingredient/4.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-chili"       src="./images/ingredient/5.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-tomato-btm"  src="./images/ingredient/1.png" alt="" loading="eager" decoding="async">
-  <img class="ingredient ing-mushroom"    src="./images/ingredient/2.png" alt="" loading="eager" decoding="async">
+  <!-- Ingrédients : 4 à gauche + 4 à droite, symétriques comme la réf -->
+  <!-- Colonne gauche -->
+  <img class="ingredient ing-basil-left"   src="./images/ingredient/4.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-chili-left"   src="./images/ingredient/5.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-olives-left"  src="./images/ingredient/3.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-tomato-left"  src="./images/ingredient/1.png" alt="" loading="eager" decoding="async">
+  <!-- Colonne droite -->
+  <img class="ingredient ing-tomato-right" src="./images/ingredient/1.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-basil-right"  src="./images/ingredient/4.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-olives-right" src="./images/ingredient/3.png" alt="" loading="eager" decoding="async">
+  <img class="ingredient ing-mushroom"     src="./images/ingredient/2.png" alt="" loading="eager" decoding="async">
 
   <div class="wrap hero-wrap">
 
