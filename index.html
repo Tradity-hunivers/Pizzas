@@ -601,21 +601,21 @@ ul { list-style: none; }
   to   { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
 }
 
-/* Positions harmonisées — 4 ingrédients à gauche + 4 à droite.
-   Espacement vertical régulier (~15%) entre chaque ; tailles
-   homogènes pour un effet "cadre" autour du titre. */
+/* Positions en ZIGZAG / LOSANGE — chaque ingrédient alterne entre
+   "proche du titre" (inward) et "près du bord" (outward).
+   Résultat : pattern diamant autour du contenu central, comme la réf. */
 
-/* Colonne gauche (top → bottom) */
-.hero .ing-basil-left   { top: 10%; left: 5%; width: 8%; --rot:-18deg; animation-delay: .25s; }
-.hero .ing-chili-left   { top: 25%; left: 5%; width: 8%; --rot: 20deg; animation-delay: .40s; }
-.hero .ing-olives-left  { top: 40%; left: 5%; width: 7%; --rot:-10deg; animation-delay: .55s; }
-.hero .ing-tomato-left  { top: 55%; left: 6%; width: 6%; --rot: 15deg; animation-delay: .70s; }
+/* Colonne gauche : IN → OUT → IN → OUT (top → bottom) */
+.hero .ing-basil-left   { top: 10%; left: 12%; width: 8%; --rot:-18deg; animation-delay: .25s; }  /* inward */
+.hero .ing-chili-left   { top: 25%; left:  3%; width: 8%; --rot: 20deg; animation-delay: .40s; }  /* outward */
+.hero .ing-olives-left  { top: 40%; left: 12%; width: 7%; --rot:-10deg; animation-delay: .55s; }  /* inward */
+.hero .ing-tomato-left  { top: 55%; left:  3%; width: 6%; --rot: 15deg; animation-delay: .70s; }  /* outward */
 
-/* Colonne droite (top → bottom) */
-.hero .ing-tomato-right { top: 10%; right: 5%; width: 7%; --rot: 12deg; animation-delay: .30s; }
-.hero .ing-basil-right  { top: 25%; right: 5%; width: 8%; --rot: 30deg; animation-delay: .45s; }
-.hero .ing-olives-right { top: 40%; right: 5%; width: 7%; --rot: 10deg; animation-delay: .60s; }
-.hero .ing-chili-right  { top: 55%; right: 5%; width: 8%; --rot: -150deg; animation-delay: .75s; }
+/* Colonne droite : miroir (IN → OUT → IN → OUT) */
+.hero .ing-tomato-right { top: 10%; right: 12%; width: 7%; --rot: 12deg;   animation-delay: .30s; }  /* inward */
+.hero .ing-basil-right  { top: 25%; right:  3%; width: 8%; --rot: 30deg;   animation-delay: .45s; }  /* outward */
+.hero .ing-olives-right { top: 40%; right: 12%; width: 7%; --rot: 10deg;   animation-delay: .60s; }  /* inward */
+.hero .ing-chili-right  { top: 55%; right:  3%; width: 8%; --rot:-150deg; animation-delay: .75s; }  /* outward */
 
 /* Positions autour du pizzaiolo */
 .pizzaiolo-visual .p-basil-1   { top:  2%; left:  4%; width: 14%; --rot:-30deg; animation-delay: .20s; }
